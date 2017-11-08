@@ -1,0 +1,19 @@
+{
+  "name": "luxer-server",
+  "version": "1.0.0",
+  "description": "backend for luxer app",
+  "main": "./bin/www",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonnyBoy333/luxer-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JonnyBoy333/luxer-server/issues"
+  },
+  "homepage": "https://github.com/JonnyBoy333/luxer-server#readme"
+}
