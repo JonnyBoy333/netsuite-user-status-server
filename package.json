@@ -5,8 +5,7 @@
   "main": "./dist/app",
   "scripts": {
     "start": "node ./dist/app",
-    "build": "tsc",
-    "postinstall": "npm run build"
+    "postinstall": "tsc"
   },
   "engines": {
     "node": "9.2.x"
