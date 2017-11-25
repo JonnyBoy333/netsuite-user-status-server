@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "watch": true,
+        "module": "commonjs",
+        "target": "es6",
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": "dist",
+        "newLine": "LF",
+        "baseUrl": ".",
+        "noImplicitUseStrict": true,
+        "noUnusedLocals": true,
+        "paths": {
+            "*": [
+                "node_modules/*",
+                "src/types/*"
+            ]
+        },
+        "lib": ["es5", "es2015.promise", "dom"]
+    },
+    "compileOnSave": true,
+    "exclude": [
+        "node_modules"
+    ],
+    "include": [
+        "src/**/*"
+    ]
+}

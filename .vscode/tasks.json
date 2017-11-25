@@ -1,0 +1,28 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "taskName": "Test Typescript Watch",
+            "command": "tsc",
+            "type": "shell",
+            "problemMatcher": "$tsc",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+        // {
+        //     "taskName": "Typescript Watch",
+        //     "command": "tsc",
+        //     "args": [
+        //         "--watch"
+        //     ],
+        //     "group": {
+        //         "kind": "build",
+        //         "isDefault": true
+        //     }
+        // }
+    ]
+}
