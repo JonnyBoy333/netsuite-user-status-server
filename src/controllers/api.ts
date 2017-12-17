@@ -74,7 +74,6 @@ export let createPackage = (req: Request, res: Response, next: NextFunction) => 
 
     // Send back confirmation emails
     const subject = req.body.subject;
-    const html = req.body['body-html'];
     if (subject.toLowerCase().indexOf('confirm') >= 0) {
         function extractEmails(text: string) {
             return text.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
@@ -82,7 +81,7 @@ export let createPackage = (req: Request, res: Response, next: NextFunction) => 
         const emails = extractEmails(subject);
 
         // Send the emails back
-        forwardEmail(emails[0], req);
+        forwardEmail(emails[0], req.body);
     } else {
         console.log('Body:', JSON.stringify(req.body, null, 4));
         const html = req.body['body-html'];
