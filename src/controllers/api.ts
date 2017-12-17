@@ -57,9 +57,9 @@ function forwardEmail(toEmail: string, emailObj: any) {
         from: 'jonnylamb@gmail.com',
         to: toEmail,
         subject: emailObj.subject,
-        // text: emailObj['body-plain'],
-        // html: emailObj['stripped-html']
-        html: '<p>Hello World</p>'
+        text: emailObj['body-plain'],
+        html: emailObj['stripped-html']
+        // html: '<p>Hello World</p>'
     };
  
     mailgun.messages().send(data, (error: object, body: object) => {
