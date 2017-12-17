@@ -10,7 +10,7 @@
         "newLine": "LF",
         "baseUrl": ".",
         "noImplicitUseStrict": true,
-        "noUnusedLocals": true,
+        "noUnusedLocals": false,
         "paths": {
             "*": [
                 "node_modules/*",
