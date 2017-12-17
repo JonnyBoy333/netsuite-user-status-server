@@ -53,11 +53,13 @@ function forwardEmail(toEmail: string, emailObj: any) {
     const mailgun = require('mailgun-js')({ domain, apiKey });
  
     const data = {
-        from: emailObj.from,
+        // from: emailObj.from,
+        from: 'jonnylamb@gmail.com',
         to: toEmail,
         subject: emailObj.subject,
-        text: emailObj['body-plain'],
-        html: emailObj['stripped-html']
+        // text: emailObj['body-plain'],
+        // html: emailObj['stripped-html']
+        html: '<p>Hello World</p>'
     };
  
     mailgun.messages().send(data, (error: object, body: object) => {
