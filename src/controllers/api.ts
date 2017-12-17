@@ -49,7 +49,7 @@ export let createAccount = (req: Request, res: Response, next: NextFunction) => 
 
 function forwardEmail(toEmail: string, emailObj: any) {
     const apiKey = 'key-1629b1cbb5e665bb4519e54de96311bd';
-    const domain = 'www.luxerlockerapp.com';
+    const domain = 'luxerlockerapp.com';
     const mailgun = require('mailgun-js')({ domain, apiKey });
  
     const data = {
@@ -79,6 +79,7 @@ export let createPackage = (req: Request, res: Response, next: NextFunction) => 
             return text.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
         }
         const emails = extractEmails(subject);
+        console.log('Email', emails[0]);
 
         // Send the emails back
         forwardEmail(emails[0], req.body);
