@@ -54,10 +54,10 @@ function forwardEmail(toEmail: string, emailObj: any) {
  
     const data = {
         // from: emailObj.from,
-        from: 'jonnylamb@gmail.com',
+        from: 'mail@luxerlockerapp.com',
         to: toEmail,
         subject: emailObj.subject,
-        text: emailObj['body-plain'],
+        // text: emailObj['body-plain'],
         html: emailObj['stripped-html']
         // html: '<p>Hello World</p>'
     };
