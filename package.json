@@ -12,32 +12,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JonnyBoy333/luxer-server.git"
+    "url": "git+https://github.com/JonnyBoy333/netsuite-user-status-server.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/JonnyBoy333/luxer-server/issues"
+    "url": "https://github.com/JonnyBoy333/netsuite-user-status-server/issues"
   },
-  "homepage": "https://github.com/JonnyBoy333/luxer-server#readme",
+  "homepage": "https://github.com/JonnyBoy333/netsuite-user-status-server#readme",
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
-    "cheerio": "^1.0.0-rc.2",
-    "compression": "^1.7.1",
     "express": "^4.16.2",
     "express-validator": "^4.3.0",
-    "mailgun-js": "^0.13.1",
-    "mongoose": "^4.13.0",
-    "passport": "^0.4.0",
+    "mongoose": "^5.0.14",
     "typescript": "^2.6.1"
   },
   "devDependencies": {
-    "@types/bcrypt-nodejs": "0.0.30",
     "@types/express": "^4.0.39",
     "@types/mongoose": "^4.7.25",
     "@types/node": "^8.0.50",
-    "@types/passport": "^0.3.5",
-    "@types/cheerio": "^0.22.5",
     "@types/compression": "0.0.35",
     "nodemon": "^1.12.1",
     "tslint": "^5.8.0",
