@@ -33,8 +33,8 @@ const app = express();
 const mongodbUri = 'mongodb://admin:R7*bx8INtE@ds241039.mlab.com:41039/ns-user-status-db';
 const options = {
     keepAlive: true,
-    reconnectTries: 60 * 30
-    // useMongoClient: true
+    reconnectTries: 60 * 30,
+    useMongoClient: true
 };
 mongooseDB.on('connecting', () => {
     console.log('connecting to MongoDB...');
