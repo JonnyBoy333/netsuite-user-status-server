@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/JonnyBoy333/netsuite-user-status-server#readme",
   "dependencies": {
+    "compression": "^1.7.2",
     "express": "^4.16.2",
     "express-validator": "^4.3.0",
     "mongoose": "^5.0.14",
