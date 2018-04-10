@@ -18,6 +18,7 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
         console.log('Error updating an account', errors);
         return res.send(errors);
     }
+    console.log('Body', req.body);
 
     // const user = new User({
     //     name: req.body.company,
