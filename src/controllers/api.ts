@@ -47,10 +47,10 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
 
     User.findOneAndUpdate(search, update, options, (err, existingUser) => {
         if (err) { return next(err); }
-        console.log('Updated Account', existingUser);
+        console.log('Updated Account', (<any>existingUser).name);
         User.find({})
         .then((users) => {
-            console.log('Users', users);
+            console.log('Users', users.map(user => (<any>user).name));
             res.send(users);
         });
         // console.log(`Account ${existingUser._id} updated successfully`);
