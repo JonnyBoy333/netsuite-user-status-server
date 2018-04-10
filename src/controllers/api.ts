@@ -26,15 +26,17 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
     //     logo: req.body.password,
     //     lastSeen: req.body.password,
     // });
-    const update = {
-        $set : {
+    const update:any = {
+        $set: {
             deviceId: req.body.deviceId,
-            name: req.body.username,
             account: req.body.account,
             logoUrl: req.body.logoUrl,
             lastSeen: req.body.date,
         }
     };
+    if (req.body.username) {
+        update.$set.name = req.body.username;
+    }
     const search = {
         deviceId: req.body.deviceId
     };
