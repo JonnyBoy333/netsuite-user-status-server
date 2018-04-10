@@ -40,13 +40,17 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
     };
     const options = {
         returnNewDocument: true,
-        upsert: req.body.name ? true : false
+        upsert: req.body.username ? true : false
     };
 
     User.findOneAndUpdate(search, update, options, (err, existingUser) => {
         if (err) { return next(err); }
         console.log('Updated Account', existingUser);
-        res.send(existingUser);
+        User.find({})
+        .then((users) => {
+            console.log('Users', users);
+            res.send(users);
+        });
         // console.log(`Account ${existingUser._id} updated successfully`);
         // if (existingUser) {
         //     // res.send({ msg: `User ${newUser.name} updated successfully.` });
