@@ -10,7 +10,7 @@ import { Request, Response, NextFunction } from 'express';
  * POST /api
  * Create a new account
  */
-export let createAccount = (req: Request, res: Response, next: NextFunction) => {
+export let createUpdateAccount = (req: Request, res: Response, next: NextFunction) => {
 
     const errors = req.validationErrors();
 
@@ -27,24 +27,26 @@ export let createAccount = (req: Request, res: Response, next: NextFunction) => 
     // });
     const update = {
         $set : {
-            name: req.body.company,
-            account: req.body.password,
-            logo: req.body.password,
-            lastSeen: req.body.password,
+            deviceId: req.body.deviceId,
+            name: req.body.username,
+            account: req.body.account,
+            logoUrl: req.body.logoUrl,
+            lastSeen: req.body.date,
         }
     };
     const search = {
-        name: req.body.name
+        deviceId: req.body.deviceId
     };
     const options = {
         returnNewDocument: true,
-        upsert: true
+        upsert: req.body.name ? true : false
     };
 
     User.findOneAndUpdate(search, update, options, (err, existingUser) => {
         if (err) { return next(err); }
+        console.log('Updated Account', existingUser);
         res.send(existingUser);
-        console.log(`Account ${existingUser._id} updated successfully`);
+        // console.log(`Account ${existingUser._id} updated successfully`);
         // if (existingUser) {
         //     // res.send({ msg: `User ${newUser.name} updated successfully.` });
         //     res.send(existingUser);

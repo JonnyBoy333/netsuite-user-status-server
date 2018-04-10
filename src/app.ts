@@ -82,7 +82,7 @@ app.get('/', (req, res) => {
 /**
  * API examples routes.
  */
-app.post('/api/create-account', apiController.createAccount);
+app.post('/api/create-update-account', apiController.createUpdateAccount);
 // app.get('/api/retrieve-packages/:email', apiController.getPackages);
 
 /**

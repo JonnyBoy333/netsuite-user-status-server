@@ -1,16 +1,18 @@
 import * as mongoose from 'mongoose';
 
 export type UserModel = mongoose.Document & {
-    name: { type: string, unique: true, index: true },
+    deviceId: { type: string, unique: true, index: true },
+    name: { type: string, unique: true },
     account: string,
-    logo: string,
+    logoUrl: string,
     lastSeen: Date,
 };
 
 const userSchema = new mongoose.Schema({
-    name: { type: String, unique: true, index: true },
+    deviceId: { type: String, unique: true, index: true },
+    name: { type: String, unique: true },
     account: String,
-    logo: String,
+    logoUrl: String,
     lastSeen: Date
 },                                     { timestamps: true });
 
