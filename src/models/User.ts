@@ -6,6 +6,10 @@ export type UserModel = mongoose.Document & {
     account: string,
     logoUrl: string,
     lastSeen: Date,
+    hits: [
+        { date: string },
+        { number: number }
+    ]
 };
 
 const userSchema = new mongoose.Schema({
@@ -13,7 +17,11 @@ const userSchema = new mongoose.Schema({
     name: { type: String, unique: true },
     account: String,
     logoUrl: String,
-    lastSeen: Date
+    lastSeen: Date,
+    hits: [
+        { date: String },
+        { number: Number }
+    ]
 },                                     { timestamps: true });
 
 const user = mongoose.model('User', userSchema);
