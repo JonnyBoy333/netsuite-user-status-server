@@ -72,6 +72,13 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
  * GET /api
  * Retrieve a list of packages
  */
+export let getUsers = (req: Request, res: Response) => {
+    User.find({})
+    .then((users) => {
+        console.log('Users', users);
+        res.send(users);
+    });
+};
 // export let getPackages = (req: Request, res: Response) => {
 //     User.findOne({ email: req.params.email }, (err: Error, foundUser: UserModel) => {
 //         if (err) {

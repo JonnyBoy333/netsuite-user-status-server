@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 import * as express from 'express';
-import * as compression from 'compression';  // compresses requests
+// import * as compression from 'compression';  // compresses requests
 import * as bodyParser from 'body-parser';
 // import * as dotenv from 'dotenv';
 import * as path from 'path';
@@ -65,7 +65,7 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, '../views'));
 
 // app.set('view engine', 'pug');
-app.use(compression());
+// app.use(compression());
 // app.use(logger('dev'));
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
@@ -83,6 +83,7 @@ app.get('/', (req, res) => {
  * API examples routes.
  */
 app.post('/api/create-update-account', apiController.createUpdateAccount);
+app.get('/api/get-users', apiController.getUsers);
 // app.get('/api/retrieve-packages/:email', apiController.getPackages);
 
 /**
