@@ -28,7 +28,7 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
         console.log('Error updating an account', errors);
         return res.send(errors);
     }
-    console.log('Body', req.body);
+    // console.log('Body', req.body);
 
     let update:any = {
         $set: {
@@ -111,6 +111,8 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
  * Retrieve a list of packages
  */
 export let getUsers = (req: Request, res: Response) => {
+    const deviceId = req.query.deviceId;
+    console.log('Device ID', deviceId);
     User.find({})
     .then((users: any) => {
         if (users.length > 0) {
@@ -124,7 +126,8 @@ export let getUsers = (req: Request, res: Response) => {
                     logoUrl: user.logoUrl,
                     lastSeen: user.lastSeen,
                     name: user.name,
-                    hits: hits.length > 0 ? hits[0].number : 0
+                    hits: hits.length > 0 ? hits[0].number : 0,
+                    active: user.deviceId === deviceId
                 };
                 return newUser;
             });
