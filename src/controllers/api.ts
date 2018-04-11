@@ -29,22 +29,13 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
         return [year, month, day].join('-');
     }
 
-    const update:any = {
+    let update:any = {
         $set: {
             deviceId: req.body.deviceId,
             account: req.body.account,
             logoUrl: req.body.logoUrl,
-            lastSeen: req.body.date
+            lastSeen: req.body.date,
         },
-        $inc: {
-            'hits.$[element].number': 1
-        }
-        // $addToSet: { 
-        //     hits: {
-        //         date: formatDate(),
-        //         hits: 1
-        //     }
-        // }
     };
     if (req.body.username) {
         update.$set.name = req.body.username;
@@ -55,17 +46,49 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
     const options = {
         returnNewDocument: true,
         upsert: req.body.username ? true : false,
-        arrayFilters: [{ 'element.date': formatDate() }]
+        arrayFilters: []
     };
-
+    
     User.findOneAndUpdate(search, update, options, (err, existingUser) => {
         if (err) { return next(err); }
         console.log('Updated Account', (<any>existingUser).name);
-        User.find({})
-        .then((users) => {
-            console.log('Users', users.map(user => (<any>user).name));
-            res.send(users);
-        });
+        
+        // Increment the hits
+        if (req.body.from === 'interval') {
+            const todaysDate = formatDate();
+            console.log('Todays Date', todaysDate);
+            const dateIndex = existingUser.hits.map(hit => hit.date).indexOf(todaysDate);
+            options.upsert = false;
+            if (dateIndex >= 0) {
+                update = { $inc: { 'hits.$[elem].number' : 1 } };
+                options.arrayFilters = [{ 'elem.date': todaysDate }];
+                // options.arrayFilters = [{ 'element': { $gte: 100 } }];
+                options.upsert = false;
+            } else {
+                update = { 
+                    $push: { hits: { date: todaysDate, number: 1 } }
+                };
+            }
+            // console.log('Search', search);
+            // console.log('Update', update);
+            // console.log('options', options);
+            // User.update(search, update, options, (err, updatedUser) => {
+            User.update(
+                    { _id: existingUser._id }, 
+                    { $inc: { 'hits.$[elem].number' : 1 } },
+                    { arrayFilters: [{ 'elem.number': 1 }] }, 
+                    (err, updatedUser) => {
+                        if (err) {
+                            console.log('Error', err);
+                        }
+                        console.log('updated user', updatedUser);
+                        User.find({})
+                        .then((users) => {
+                            if (users.length > 0) console.log('Users', users.map(user => (<any>user).name));
+                            res.send(users);
+                        });
+                    });
+        }
     });
 };
 
