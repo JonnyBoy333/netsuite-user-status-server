@@ -2,6 +2,7 @@
 
 import { default as User, UserModel } from '../models/User';
 import { Request, Response, NextFunction } from 'express';
+import * as mongoose from 'mongoose';
 
 /**
  * POST /api
@@ -45,8 +46,7 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
     };
     const options = {
         returnNewDocument: true,
-        upsert: req.body.username ? true : false,
-        arrayFilters: []
+        upsert: req.body.username ? true : false
     };
     
     User.findOneAndUpdate(search, update, options, (err, existingUser: any) => {
@@ -56,38 +56,27 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
         // Increment the hits
         if (req.body.from === 'interval') {
             const todaysDate = formatDate();
-            console.log('Todays Date', todaysDate);
+            // console.log('Todays Date', todaysDate);
             const dateIndex = existingUser.hits.map(hit => hit.date).indexOf(todaysDate);
             options.upsert = false;
             if (dateIndex >= 0) {
-                update = { $inc: { 'hits.$[elem].number' : 1 } };
-                options.arrayFilters = [{ 'elem.date': todaysDate }];
-                // options.arrayFilters = [{ 'element': { $gte: 100 } }];
-                options.upsert = false;
+                update = { $inc: { 'hits.$.number' : 1 } };
+                search['hits.date'] = todaysDate;
             } else {
-                update = { 
-                    $push: { hits: { date: todaysDate, number: 1 } }
-                };
+                update = { $push: { hits: { date: todaysDate, number: 1 } } };
             }
             // console.log('Search', search);
             // console.log('Update', update);
             // console.log('options', options);
-            // User.update(search, update, options, (err, updatedUser) => {
-            User.update(
-                    { _id: existingUser._id }, 
-                    { $inc: { 'hits.$[elem].number' : 1 } },
-                    { arrayFilters: [{ 'elem.number': 1 }] }, 
-                    (err, updatedUser) => {
-                        if (err) {
-                            console.log('Error', err);
-                        }
-                        console.log('updated user', updatedUser);
-                        User.find({})
-                        .then((users) => {
-                            if (users.length > 0) console.log('Users', users.map(user => (<any>user).name));
-                            res.send(users);
-                        });
-                    });
+            User.findOneAndUpdate(search, update, options, (err, updatedUser) => {
+                if (err) console.log('Error', err);
+                // console.log('updated user', updatedUser);
+                User.find({})
+                .then((users) => {
+                    if (users.length > 0) console.log('Users', users.map(user => (<any>user).name));
+                    res.send(users);
+                });
+            });
         }
     });
 };

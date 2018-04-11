@@ -1,7 +1,7 @@
 {
-  "name": "luxer-server",
+  "name": "netsuite-user-status",
   "version": "1.0.0",
-  "description": "backend for luxer app",
+  "description": "backend for netsuite user status chrome extension",
   "main": "./dist/app",
   "scripts": {
     "start": "node ./dist/app",
@@ -21,18 +21,18 @@
   },
   "homepage": "https://github.com/JonnyBoy333/netsuite-user-status-server#readme",
   "dependencies": {
-    "express": "^4.16.2",
+    "express": "^4.16.3",
     "express-validator": "^4.3.0",
     "mongoose": "^5.0.14",
-    "typescript": "^2.6.1"
+    "typescript": "^2.8.1"
   },
   "devDependencies": {
-    "@types/express": "^4.0.39",
-    "@types/mongoose": "^4.7.25",
-    "@types/node": "^8.0.50",
+    "@types/mongoose": "^5.0.9",
     "@types/compression": "0.0.35",
-    "nodemon": "^1.12.1",
-    "tslint": "^5.8.0",
-    "tslint-config-airbnb": "^5.3.0"
+    "@types/express": "^4.11.1",
+    "@types/node": "^8.10.7",
+    "nodemon": "^1.17.3",
+    "tslint": "^5.9.1",
+    "tslint-config-airbnb": "^5.8.0"
   }
 }
