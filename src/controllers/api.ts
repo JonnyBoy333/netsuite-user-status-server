@@ -71,11 +71,12 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
             User.findOneAndUpdate(search, update, options, (err, updatedUser) => {
                 if (err) console.log('Error', err);
                 // console.log('updated user', updatedUser);
-                User.find({})
-                .then((users) => {
-                    if (users.length > 0) console.log('Users', users.map(user => (<any>user).name));
-                    res.send(users);
-                });
+            });
+        } else {
+            User.find({})
+            .then((users) => {
+                if (users.length > 0) console.log('Users', users.map(user => (<any>user).name));
+                res.send(users);
             });
         }
     });
