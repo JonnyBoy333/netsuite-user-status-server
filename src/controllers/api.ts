@@ -93,14 +93,14 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
                             logoUrl: user.logoUrl,
                             lastSeen: user.lastSeen,
                             name: user.name,
-                            hits: hits.length > 0 ? hits[0].number : 0
+                            hits: hits.length > 0 ? hits[0].number : 0,
+                            active: user.name === existingUser.name
                         };
                         return newUser;
                     });
-                    console.log('Updated Users', updatedUsers);
+                    // console.log('Updated Users', updatedUsers);
                     res.send(updatedUsers);
                 }
-
             });
         }
     });
@@ -113,7 +113,22 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
 export let getUsers = (req: Request, res: Response) => {
     User.find({})
     .then((users) => {
-        console.log('Users', users);
-        res.send(users);
+        if (users.length > 0) {
+            console.log('Users', users.map(user => user.name));
+            const updatedUsers = users.map((user) => {
+                const hits = user.hits.filter(hit => hit.date === todaysDate);
+                const newUser = {
+                    deviceId: user.deviceId,
+                    account: user.account,
+                    logoUrl: user.logoUrl,
+                    lastSeen: user.lastSeen,
+                    name: user.name,
+                    hits: hits.length > 0 ? hits[0].number : 0
+                };
+                return newUser;
+            });
+            // console.log('Updated Users', updatedUsers);
+            res.send(updatedUsers);
+        }
     });
 };
