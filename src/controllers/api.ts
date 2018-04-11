@@ -82,9 +82,9 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
             });
         } else {
             User.find({})
-            .then((users) => {
+            .then((users: any) => {
                 if (users.length > 0) {
-                    console.log('Users', users.map(user => (<any>user).name));
+                    console.log('Users', users.map(user => user.name));
                     const updatedUsers = users.map((user) => {
                         const hits = user.hits.filter(hit => hit.date === todaysDate);
                         const newUser = {
@@ -97,7 +97,7 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
                         };
                         return newUser;
                     });
-                    // console.log('Updated Users', updatedUsers);
+                    console.log('Updated Users', updatedUsers);
                     res.send(updatedUsers);
                 }
 
