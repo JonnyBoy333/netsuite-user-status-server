@@ -31,7 +31,7 @@ const app = express();
 (<any>mongoose).Promise = global.Promise;
 // const mongodbUri = process.env.MONGODB_URI;
 const mongodbUri = 'mongodb://admin:R7*bx8INtE@ds241039.mlab.com:41039/ns-user-status-db';
-const options = {
+const options: any = {
     keepAlive: true,
     reconnectTries: 60 * 30
 };
