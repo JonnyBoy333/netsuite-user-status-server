@@ -4,6 +4,18 @@ import { default as User, UserModel } from '../models/User';
 import { Request, Response, NextFunction } from 'express';
 import * as mongoose from 'mongoose';
 
+function formatDate() {
+    const d = new Date();
+    const year = d.getFullYear();
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
 /**
  * POST /api
  * Create a new account
@@ -17,18 +29,6 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
         return res.send(errors);
     }
     console.log('Body', req.body);
-
-    function formatDate() {
-        const d = new Date();
-        const year = d.getFullYear();
-        let month = '' + (d.getMonth() + 1);
-        let day = '' + d.getDate();
-    
-        if (month.length < 2) month = '0' + month;
-        if (day.length < 2) day = '0' + day;
-    
-        return [year, month, day].join('-');
-    }
 
     let update:any = {
         $set: {
@@ -72,9 +72,9 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
                 if (err) console.log('Error', err);
                 // console.log('updated user', updatedUser);
                 User.find({})
-                .then((users) => {
+                .then((users: any) => {
                     if (users.length > 0) {
-                        const userNames = users.map(user => (<any>user).name);
+                        const userNames = users.map(user => user.name);
                         console.log('Users', userNames);
                         res.send(userNames);
                     }
@@ -112,8 +112,9 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
  */
 export let getUsers = (req: Request, res: Response) => {
     User.find({})
-    .then((users) => {
+    .then((users: any) => {
         if (users.length > 0) {
+            const todaysDate = formatDate();
             console.log('Users', users.map(user => user.name));
             const updatedUsers = users.map((user) => {
                 const hits = user.hits.filter(hit => hit.date === todaysDate);
