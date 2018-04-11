@@ -49,9 +49,9 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
         arrayFilters: []
     };
     
-    User.findOneAndUpdate(search, update, options, (err, existingUser) => {
+    User.findOneAndUpdate(search, update, options, (err, existingUser: any) => {
         if (err) { return next(err); }
-        console.log('Updated Account', (<any>existingUser).name);
+        console.log('Updated Account', existingUser.name);
         
         // Increment the hits
         if (req.body.from === 'interval') {
