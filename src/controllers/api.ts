@@ -49,13 +49,13 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
         upsert: req.body.username ? true : false
     };
     
+    const todaysDate = formatDate();
     User.findOneAndUpdate(search, update, options, (err, existingUser: any) => {
         if (err) { return next(err); }
         console.log('Updated Account', existingUser.name);
         
         // Increment the hits
         if (req.body.from === 'interval') {
-            const todaysDate = formatDate();
             // console.log('Todays Date', todaysDate);
             const dateIndex = existingUser.hits.map(hit => hit.date).indexOf(todaysDate);
             options.upsert = false;
@@ -73,15 +73,34 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
                 // console.log('updated user', updatedUser);
                 User.find({})
                 .then((users) => {
-                    if (users.length > 0) console.log('Users', users.map(user => (<any>user).name));
-                    res.send(users);
+                    if (users.length > 0) {
+                        const userNames = users.map(user => (<any>user).name);
+                        console.log('Users', userNames);
+                        res.send(userNames);
+                    }
                 });
             });
         } else {
             User.find({})
             .then((users) => {
-                if (users.length > 0) console.log('Users', users.map(user => (<any>user).name));
-                res.send(users);
+                if (users.length > 0) {
+                    console.log('Users', users.map(user => (<any>user).name));
+                    const updatedUsers = users.map((user) => {
+                        const hits = user.hits.filter(hit => hit.date === todaysDate);
+                        const newUser = {
+                            deviceId: user.deviceId,
+                            account: user.account,
+                            logoUrl: user.logoUrl,
+                            lastSeen: user.lastSeen,
+                            name: user.name,
+                            hits: hits.length > 0 ? hits[0].number : 0
+                        };
+                        return newUser;
+                    });
+                    // console.log('Updated Users', updatedUsers);
+                    res.send(updatedUsers);
+                }
+
             });
         }
     });
