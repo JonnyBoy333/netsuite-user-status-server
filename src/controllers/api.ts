@@ -43,7 +43,7 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
         update.$set.name = req.body.username;
     }
     const search = {
-        deviceId: req.body.deviceId
+        name: req.body.username
     };
     const options = {
         returnNewDocument: true,
@@ -75,9 +75,22 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
                 User.find({})
                 .then((users: any) => {
                     if (users.length > 0) {
-                        const userNames = users.map(user => user.name);
-                        console.log('Users', userNames);
-                        res.send(userNames);
+                        // const userNames = users.map(user => user.name);
+                        const updatedUsers = users.map((user) => {
+                            const hits = user.hits.filter(hit => hit.date === todaysDate);
+                            const newUser = {
+                                deviceId: user.deviceId,
+                                account: user.account,
+                                logoUrl: user.logoUrl,
+                                lastSeen: user.lastSeen,
+                                name: user.name,
+                                hits: hits.length > 0 ? hits[0].number : 0,
+                                active: user.name === existingUser.name
+                            };
+                            return newUser;
+                        });
+                        console.log('Users', updatedUsers);
+                        res.send(updatedUsers);
                     }
                 });
             });

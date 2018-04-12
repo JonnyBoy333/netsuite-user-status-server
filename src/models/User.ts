@@ -1,8 +1,8 @@
 import * as mongoose from 'mongoose';
 
 export type UserModel = mongoose.Document & {
-    deviceId: { type: string, unique: true, index: true },
-    name: { type: string, unique: true },
+    deviceId: string,
+    name: { type: string, unique: true, index: true },
     account: string,
     logoUrl: string,
     lastSeen: Date,
@@ -12,8 +12,8 @@ export type UserModel = mongoose.Document & {
 };
 
 const userSchema = new mongoose.Schema({
-    deviceId: { type: String, unique: true, index: true },
-    name: { type: String, unique: true },
+    deviceId: String,
+    name: { type: String, unique: true, index: true },
     account: String,
     logoUrl: String,
     lastSeen: Date,
