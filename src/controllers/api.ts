@@ -5,7 +5,6 @@ import { Request, Response, NextFunction } from 'express';
 import * as mongoose from 'mongoose';
 
 function formatDate() {
-    // const d = new Date();
     const d = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }));
     const year = d.getFullYear();
     let month = '' + (d.getMonth() + 1);
@@ -24,7 +23,6 @@ function formatDate() {
 export let createUpdateAccount = (req: Request, res: Response, next: NextFunction) => {
 
     const errors = req.validationErrors();
-
     if (errors) {
         console.log('Error updating an account', errors);
         return res.send(errors);
@@ -51,31 +49,30 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
     };
     
     const todaysDate = formatDate();
+    // console.log('Todays Date', todaysDate);
     User.findOneAndUpdate(search, update, options, (err, existingUser: any) => {
         if (err) { return next(err); }
         console.log('Updated Account', existingUser.name);
         
         // Increment the hits
-        if (req.body.from === 'interval') {
-            // console.log('Todays Date', todaysDate);
-            const dateIndex = existingUser.hits.map(hit => hit.date).indexOf(todaysDate);
-            options.upsert = false;
-            if (dateIndex >= 0) {
-                update = { $inc: { 'hits.$.number' : 1 } };
-                search['hits.date'] = todaysDate;
-            } else {
-                update = { $push: { hits: { date: todaysDate, number: 1 } } };
-            }
-            // console.log('Search', search);
-            // console.log('Update', update);
-            // console.log('options', options);
-            User.findOneAndUpdate(search, update, options, (err, updatedUser) => {
-                if (err) console.log('Error', err);
-                // console.log('updated user', updatedUser);
-                User.find({})
+        const dateIndex = existingUser.hits.map(hit => hit.date).indexOf(todaysDate);
+        options.upsert = false;
+        if (dateIndex >= 0) {
+            update = { $inc: { 'hits.$.number' : 1 } };
+            search['hits.date'] = todaysDate;
+        } else {
+            update = { $push: { hits: { date: todaysDate, number: 1 } } };
+        }
+
+        // console.log('Search', search);
+        // console.log('Update', update);
+        // console.log('options', options);
+        User.findOneAndUpdate(search, update, options, (err, updatedUser) => {
+            if (err) console.log('Error', err);
+            // console.log('updated user', updatedUser);
+            User.find({})
                 .then((users: any) => {
                     if (users.length > 0) {
-                        // const userNames = users.map(user => user.name);
                         const updatedUsers = users.map((user) => {
                             const hits = user.hits.filter(hit => hit.date === todaysDate);
                             const newUser = {
@@ -89,34 +86,11 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
                             };
                             return newUser;
                         });
-                        console.log('Users', updatedUsers);
+                        console.log('Users', users.map(user => user.name));
                         res.send(updatedUsers);
                     }
                 });
-            });
-        } else {
-            User.find({})
-            .then((users: any) => {
-                if (users.length > 0) {
-                    console.log('Users', users.map(user => user.name));
-                    const updatedUsers = users.map((user) => {
-                        const hits = user.hits.filter(hit => hit.date === todaysDate);
-                        const newUser = {
-                            deviceId: user.deviceId,
-                            account: user.account,
-                            logoUrl: user.logoUrl,
-                            lastSeen: user.lastSeen,
-                            name: user.name,
-                            hits: hits.length > 0 ? hits[0].number : 0,
-                            active: user.name === existingUser.name
-                        };
-                        return newUser;
-                    });
-                    // console.log('Updated Users', updatedUsers);
-                    res.send(updatedUsers);
-                }
-            });
-        }
+        });
     });
 };
 
@@ -131,7 +105,6 @@ export let getUsers = (req: Request, res: Response) => {
     .then((users: any) => {
         if (users.length > 0) {
             const todaysDate = formatDate();
-            console.log('Users', users.map(user => user.name));
             const updatedUsers = users.map((user) => {
                 const hits = user.hits.filter(hit => hit.date === todaysDate);
                 const newUser = {
@@ -145,7 +118,7 @@ export let getUsers = (req: Request, res: Response) => {
                 };
                 return newUser;
             });
-            // console.log('Updated Users', updatedUsers);
+            console.log('Users', users.map(user => user.name));
             res.send(updatedUsers);
         }
     });
