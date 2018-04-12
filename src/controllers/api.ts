@@ -40,9 +40,10 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
     if (req.body.username) {
         update.$set.name = req.body.username;
     }
-    const search = {
-        name: req.body.username
-    };
+    const search = req.body.username ?
+        { name: req.body.username } :
+        { deviceId: req.body.deviceId };
+
     const options = {
         returnNewDocument: true,
         upsert: req.body.username ? true : false
@@ -51,8 +52,8 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
     const todaysDate = formatDate();
     // console.log('Todays Date', todaysDate);
     User.findOneAndUpdate(search, update, options, (err, existingUser: any) => {
-        if (err) { return next(err); }
-        console.log('Updated Account', existingUser.name);
+        if (err) { console.error(err); }
+        console.log('Updated Account', existingUser);
         
         // Increment the hits
         const dateIndex = existingUser.hits.map(hit => hit.date).indexOf(todaysDate);
