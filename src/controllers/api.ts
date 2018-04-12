@@ -5,7 +5,8 @@ import { Request, Response, NextFunction } from 'express';
 import * as mongoose from 'mongoose';
 
 function formatDate() {
-    const d = new Date();
+    // const d = new Date();
+    const d = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }));
     const year = d.getFullYear();
     let month = '' + (d.getMonth() + 1);
     let day = '' + d.getDate();
