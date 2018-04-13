@@ -35,12 +35,13 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
             account: req.body.account,
             logoUrl: req.body.logoUrl,
             lastSeen: req.body.date,
+            username: req.body.username
         },
     };
     if (req.body.username) {
         update.$set.name = req.body.username;
     }
-    const search = req.body.username ?
+    const search = req.body.berganKDV ?
         { name: req.body.username } :
         { deviceId: req.body.deviceId };
 
@@ -53,7 +54,7 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
     // console.log('Todays Date', todaysDate);
     User.findOneAndUpdate(search, update, options, (err, existingUser: any) => {
         if (err) { console.error(err); }
-        console.log('Updated Account', existingUser);
+        // console.log('Updated Account', existingUser);
         
         // Increment the hits
         const dateIndex = existingUser.hits.map(hit => hit.date).indexOf(todaysDate);
@@ -81,6 +82,7 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
                                 account: user.account,
                                 logoUrl: user.logoUrl,
                                 lastSeen: user.lastSeen,
+                                username: user.username,
                                 name: user.name,
                                 hits: hits.length > 0 ? hits[0].number : 0,
                                 active: user.name === existingUser.name
@@ -114,6 +116,7 @@ export let getUsers = (req: Request, res: Response) => {
                     logoUrl: user.logoUrl,
                     lastSeen: user.lastSeen,
                     name: user.name,
+                    username: user.username,
                     hits: hits.length > 0 ? hits[0].number : 0,
                     active: user.deviceId === deviceId
                 };

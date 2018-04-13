@@ -3,6 +3,7 @@ import * as mongoose from 'mongoose';
 export type UserModel = mongoose.Document & {
     deviceId: string,
     name: { type: string, unique: true, index: true },
+    username: string;
     account: string,
     logoUrl: string,
     lastSeen: Date,
@@ -14,6 +15,7 @@ export type UserModel = mongoose.Document & {
 const userSchema = new mongoose.Schema({
     deviceId: String,
     name: { type: String, unique: true, index: true },
+    username: String,
     account: String,
     logoUrl: String,
     lastSeen: Date,
