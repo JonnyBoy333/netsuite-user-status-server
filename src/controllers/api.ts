@@ -38,7 +38,7 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
             username: req.body.username
         },
     };
-    if (req.body.username) {
+    if (req.body.berganKDV) {
         update.$set.name = req.body.username;
     }
     const search = req.body.berganKDV ?
