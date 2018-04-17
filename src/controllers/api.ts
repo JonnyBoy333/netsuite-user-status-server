@@ -57,6 +57,7 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
         // console.log('Updated Account', existingUser);
         
         // Increment the hits
+        if (!existingUser.hits) return;
         const dateIndex = existingUser.hits.map(hit => hit.date).indexOf(todaysDate);
         options.upsert = false;
         if (dateIndex >= 0) {
