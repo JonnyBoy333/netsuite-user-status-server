@@ -47,7 +47,7 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
 
     const options = {
         returnNewDocument: true,
-        upsert: req.body.username ? true : false
+        upsert: req.body.berganKDV && req.body.deviceId
     };
     
     const todaysDate = formatDate();
