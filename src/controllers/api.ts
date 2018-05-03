@@ -54,10 +54,10 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
     // console.log('Todays Date', todaysDate);
     User.findOneAndUpdate(search, update, options, (err, existingUser: any) => {
         if (err) { console.error(err); }
-        // console.log('Updated Account', existingUser);
+        console.log('Updated Account', existingUser);
         
         // Increment the hits
-        if (!existingUser.hits) return;
+        if (!existingUser || !existingUser.hits) return;
         const dateIndex = existingUser.hits.map(hit => hit.date).indexOf(todaysDate);
         options.upsert = false;
         if (dateIndex >= 0) {
