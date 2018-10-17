@@ -30,7 +30,9 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
     console.log('Body', req.body);
 
     let update:any = {
-        $set: {
+        $set: req.body.berganKDV ? {
+            deviceId: req.body.deviceId,
+        } : {
             deviceId: req.body.deviceId,
             account: req.body.account,
             logoUrl: req.body.logoUrl,
