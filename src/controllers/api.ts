@@ -27,7 +27,7 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
         console.log('Error updating an account', errors);
         return res.send(errors);
     }
-    // console.log('Body', req.body);
+    console.log('Body', req.body);
 
     let update:any = {
         $set: {
@@ -54,7 +54,7 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
     // console.log('Todays Date', todaysDate);
     User.findOneAndUpdate(search, update, options, (err, existingUser: any) => {
         if (err) { console.error(err); }
-        console.log('Updated Account', existingUser);
+        // console.log('Updated Account', existingUser);
         
         // Increment the hits
         if (!existingUser || !existingUser.hits) return;
@@ -90,7 +90,7 @@ export let createUpdateAccount = (req: Request, res: Response, next: NextFunctio
                             };
                             return newUser;
                         });
-                        console.log('Users', users.map(user => user.name));
+                        // console.log('Users', users.map(user => user.name));
                         res.send(updatedUsers);
                     }
                 });
